@@ -1,0 +1,129 @@
+/* Hero Section */
+.hero-section {
+  padding: 40px 0;
+  background: var(--gradient-light);
+  border-radius: 8px;
+  padding: 60px 20px;
+}
+
+.hero-section h1 {
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.hero-section .lead {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Feature Cards */
+.feature-card {
+  background: var(--bg-white);
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-card h5 {
+  color: var(--primary-color);
+  font-size: 18px;
+}
+
+.feature-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+/* Timeline */
+.timeline-item {
+  position: relative;
+  padding-left: 30px;
+  margin-left: 15px;
+  border-left: 2px solid var(--primary-color);
+}
+
+/* step circle stays above line */
+.step-number {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* .step-number {
+  background: var(--gradient-primary);
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+} */
+
+.timeline-item h5 {
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+/* CTA Section */
+.cta-section {
+  background: var(--gradient-cta);
+  padding: 60px 40px;
+}
+
+.cta-section h2 {
+  color: var(--text-primary);
+  font-size: 32px;
+}
+
+.cta-section .lead {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: var(--text-secondary);
+}
+
+/* Button Overrides - Pastel Colors */
+.btn-primary {
+  background-color: #5eb3d4;
+  border-color: #5eb3d4;
+  color: white;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: #4a9fb5;
+  border-color: #4a9fb5;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    text-align: center;
+  }
+
+  .hero-section h1 {
+    font-size: 28px;
+  }
+
+  .timeline-item {
+    margin-left: 0;
+    padding-left: 20px;
+  }
+
+  .cta-section {
+    padding: 40px 20px;
+  }
+
+  .cta-section h2 {
+    font-size: 24px;
+  }
+}

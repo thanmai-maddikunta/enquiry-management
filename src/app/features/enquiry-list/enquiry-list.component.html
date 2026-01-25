@@ -1,0 +1,91 @@
+<div class="container">
+  <!-- Page Header -->
+  <div class="page-header mb-3">
+    <h1 class="page-title">Enquiry Management</h1>
+    <p class="page-subtitle">Track and manage all customer enquiries</p>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="row g-3">
+    @for (enquiry of enquiries; track $index) {
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="enquiry-card compact">
+
+          <!-- Header -->
+          <div class="card-header-section">
+            <div class="header-left">
+              <span class="enquiry-id">#{{ enquiry.enquiryId }}</span>
+              <span class="enquiry-type-badge">{{ enquiry.enquiryType }}</span>
+            </div>
+
+            <div class="header-right">
+              <span
+                class="status-badge"
+                [class.converted]="enquiry.isConverted"
+                [class.open]="!enquiry.isConverted">
+                {{ enquiry.isConverted ? 'Converted' : 'Open' }}
+              </span>
+
+              <span
+                class="converted-badge"
+                [title]="enquiry.isConverted ? 'Converted' : 'Not Converted'">
+                <i class="bi"
+                   [class.bi-check]="enquiry.isConverted"
+                   [class.bi-x]="!enquiry.isConverted"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body-section">
+
+            <!-- Customer -->
+            <div class="compact-row">
+              <i class="bi bi-person"></i>
+              <strong>{{ enquiry.customerName }}</strong>
+            </div>
+
+            <div class="compact-row">
+              <i class="bi bi-envelope"></i>
+              {{ enquiry.customerEmail }}
+            </div>
+
+            <div class="compact-row">
+              <i class="bi bi-telephone"></i>
+              {{ enquiry.customerPhone }}
+            </div>
+
+            <!-- Dates -->
+            <div class="dates-row">
+              <span>📅 {{ enquiry.enquiryDate | date:'dd MMM yyyy' }}</span><br>
+              <span>⏰ {{ enquiry.followUpDate | date:'dd MMM yyyy' }}</span>
+            </div>
+
+            <!-- Message -->
+            <p class="message-text">
+              💬 {{ enquiry.message }}
+            </p>
+
+            <!-- Feedback -->
+            @if (enquiry.feedback) {
+              <p class="feedback-text">💬 {{ enquiry.feedback }}</p>
+            } @else {
+              <p class="feedback-empty">💬 No feedback</p>
+            }
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer-section">
+            <button class="btn-action btn-primary-action">
+              <i class="bi bi-reply"></i>
+            </button>
+            <button class="btn-action btn-secondary-action">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    }
+  </div>
+</div>

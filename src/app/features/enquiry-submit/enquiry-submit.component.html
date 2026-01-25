@@ -1,0 +1,222 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Header -->
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body text-center py-4">
+          <h1 class="mb-2">📝 Submit an Enquiry</h1>
+          <p class="text-muted">Please fill out the form below and we'll get back to you shortly</p>
+        </div>
+      </div>
+
+      <form [formGroup]="enquiryForm" (ngSubmit)="onSubmit()">
+        <!-- Section 1: Customer Information -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">👤 Customer Information</h5>
+          </div>
+          <div class="card-body">
+            <!-- Customer Name -->
+            <div class="mb-3">
+              <label for="customerName" class="form-label fw-bold">
+                <i class="bi bi-person-fill"></i> Full Name <span class="text-danger">*</span>
+              </label>
+              <input type="text" class="form-control" id="customerName" formControlName="customerName"
+                [class.is-invalid]="hasError('customerName', 'required') || hasError('customerName', 'minlength')"
+                placeholder="Enter your full name">
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerName', 'required')">
+                <i class="bi bi-exclamation-circle"></i> Name is required
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerName', 'minlength')">
+                <i class="bi bi-exclamation-circle"></i> Name must be at least 3 characters
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="customerEmail" class="form-label fw-bold">
+                <i class="bi bi-envelope-fill"></i> Email Address <span class="text-danger">*</span>
+              </label>
+              <input type="email" class="form-control" id="customerEmail" formControlName="customerEmail"
+                [class.is-invalid]="hasError('customerEmail', 'required') || hasError('customerEmail', 'email')"
+                placeholder="your.email@example.com">
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerEmail', 'required')">
+                <i class="bi bi-exclamation-circle"></i> Email is required
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerEmail', 'email')">
+                <i class="bi bi-exclamation-circle"></i> Please enter a valid email address
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+              <label for="customerPhone" class="form-label fw-bold">
+                <i class="bi bi-telephone-fill"></i> Phone Number <span class="text-danger">*</span>
+              </label>
+              <input type="tel" class="form-control" id="customerPhone" formControlName="customerPhone"
+                [class.is-invalid]="hasError('customerPhone', 'required') || hasError('customerPhone', 'pattern')"
+                placeholder="10-digit phone number">
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerPhone', 'required')">
+                <i class="bi bi-exclamation-circle"></i> Phone number is required
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="hasError('customerPhone', 'pattern')">
+                <i class="bi bi-exclamation-circle"></i> Phone number must be 10 digits
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Enquiry Details -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">💬 Enquiry Details</h5>
+          </div>
+          <div class="card-body">
+            <!-- Category -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="categoryId" class="form-label fw-bold">
+                  <i class="bi bi-list-ul"></i> Category <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="categoryId" formControlName="categoryId"
+                  [class.is-invalid]="hasError('categoryId', 'required')">
+                  <option value="" selected disabled>Select a category</option>
+                  @for(cat of categoryList; track $index){
+                    <option [value]="cat.categoryId">{{ cat.categoryName }}</option>
+                  }
+                </select>
+                @if(hasError('categoryId', 'required')){
+                  <div class="invalid-feedback d-block">
+                  <i class="bi bi-exclamation-circle"></i> Please select a category
+                </div>
+                }
+              </div>
+
+              <!-- Enquiry Type -->
+              <div class="col-md-6">
+                <label for="enquiryType" class="form-label fw-bold">
+                  <i class="bi bi-tag-fill"></i> Enquiry Type <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="enquiryType" formControlName="enquiryType"
+                  [class.is-invalid]="hasError('enquiryType', 'required')">
+                  @for(type of enquiryTypes; track $index){
+                    <option [value]="type.value">{{ type.label }}</option>
+                  }
+                </select>
+                @if(hasError('enquiryType', 'required')){
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle"></i> Please select enquiry type
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-3">
+              <label for="message" class="form-label fw-bold">
+                <i class="bi bi-chat-left-text-fill"></i> Message <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" id="message" rows="4" formControlName="message"
+                [class.is-invalid]="hasError('message', 'required') || hasError('message', 'minlength')"
+                placeholder="Please describe your enquiry in detail (minimum 10 characters)"></textarea>
+              <div class="invalid-feedback d-block" *ngIf="hasError('message', 'required')">
+                <i class="bi bi-exclamation-circle"></i> Message is required
+              </div>
+              <div class="invalid-feedback d-block" *ngIf="hasError('message', 'minlength')">
+                <i class="bi bi-exclamation-circle"></i> Message must be at least 10 characters
+              </div>
+              <small class="text-muted d-block mt-1">
+                Characters: {{ getControl('message')?.value?.length || 0 }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Status & Tracking -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">⏱️ Status & Tracking</h5>
+          </div>
+          <div class="card-body">
+            <!-- Status -->
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="statusId" class="form-label fw-bold">
+                  <i class="bi bi-shield-check-fill"></i> Status <span class="text-danger">*</span>
+                </label>
+                <select class="form-select" id="statusId" formControlName="statusId"
+                  [class.is-invalid]="hasError('statusId', 'required')">
+                  @for(status of statusList; track $index){
+                    <option [value]="status.statusId"> {{ status.statusName }} </option>
+                  }
+                </select>
+                @if(hasError('statusId', 'required')){
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-circle"></i> Please select a status
+                  </div>
+                }
+              </div>
+
+              <!-- Follow-up Date -->
+              <div class="col-md-6">
+                <label for="followUpDate" class="form-label fw-bold">
+                  <i class="bi bi-calendar-event"></i> Follow-up Date <span class="text-danger">*</span>
+                </label>
+                <input type="date" class="form-control" id="followUpDate" formControlName="followUpDate"
+                  [class.is-invalid]="hasError('followUpDate', 'required')">
+                <div class="invalid-feedback d-block" *ngIf="hasError('followUpDate', 'required')">
+                  <i class="bi bi-exclamation-circle"></i> Follow-up date is required
+                </div>
+              </div>
+            </div>
+
+            <!-- Is Converted -->
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="isConverted" formControlName="isConverted">
+              <label class="form-check-label" for="isConverted">
+                <i class="bi bi-check-circle-fill"></i> Mark as Converted
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Additional Feedback -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header">
+            <h5 class="mb-0">📋 Additional Feedback (Optional)</h5>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label for="feedback" class="form-label fw-bold">
+                <i class="bi bi-pencil-square"></i> Feedback
+              </label>
+              <textarea class="form-control" id="feedback" rows="3" formControlName="feedback"
+                [class.is-invalid]="hasError('feedback', 'minlength')"
+                placeholder="Any additional feedback or comments..."></textarea>
+              <div class="invalid-feedback d-block" *ngIf="hasError('feedback', 'minlength')">
+                <i class="bi bi-exclamation-circle"></i> Feedback must be at least 5 characters
+              </div>
+              <small class="text-muted d-block mt-1">
+                Characters: {{ getControl('feedback')?.value?.length || 0 }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex gap-3 mb-5 flex-wrap">
+          <button type="submit" class="btn btn-primary btn-lg flex-grow-1"
+            [disabled]="enquiryForm.invalid && submitted">
+            <i class="bi bi-check-circle"></i> Submit Enquiry
+          </button>
+          <button type="button" class="btn btn-warning btn-lg" (click)="saveAsDraft()">
+            <i class="bi bi-bookmark"></i> Save as Draft
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-lg" (click)="resetForm()">
+            <i class="bi bi-arrow-clockwise"></i> Reset
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

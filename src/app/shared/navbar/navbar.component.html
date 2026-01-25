@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg sticky-top"
+  style="background-color: var(--bg-white); border-bottom: 1px solid var(--border-color);">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" routerLink="/home" (click)="closeNavbar()">📋 Enquiry Management</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            (click)="closeNavbar()">Home</a>
+        </li>
+        @if(isLoggedIn()){
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="closeNavbar()">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/enquiry-list" routerLinkActive="active" (click)="closeNavbar()">Enquiry
+            List</a>
+        </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/enquiry-submit" routerLinkActive="active" (click)="closeNavbar()">Submit
+            Enquiry</a>
+        </li>
+      </ul>
+      <div class="d-flex gap-2 align-items-center ms-lg-3">
+        <!-- Login Link -->
+        <a *ngIf="!isLoggedIn()" class="btn btn-primary btn-sm" routerLink="/login" (click)="closeNavbar()">
+          Login
+        </a>
+
+        <!-- User Section (Logged In) -->
+        <div *ngIf="isLoggedIn()" class="d-flex align-items-center gap-2">
+          <span class="text-light d-none d-md-inline">{{ userName() }}</span>
+          <button class="btn btn-danger btn-sm" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
