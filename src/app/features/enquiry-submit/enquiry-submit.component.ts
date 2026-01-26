@@ -1,24 +1,27 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, inject, OnDestroy, OnInit } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FeatureService } from '../feature.service';
+import { EnquiryModel, ICategory, IStatus } from '../../model/enquiry.model';
+import { Observable } from 'rxjs';
 
 
 @Component({
   selector: 'app-enquiry-submit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AsyncPipe],
   templateUrl: './enquiry-submit.component.html',
   styleUrls: ['./enquiry-submit.component.css']
 })
 export class EnquirySubmitComponent implements OnInit {
   private fb = inject(FormBuilder);
   private __featureService = inject(FeatureService);
+  private destroyRef = inject(DestroyRef)
 
   enquiryForm!: FormGroup;
   submitted = false;
-  statusList: any[] = [];
-  categoryList: any[] = [];
+  $statusList: Observable<IStatus[]> = new Observable<IStatus[]>();
+  $categoryList: Observable<ICategory[]> = new Observable<ICategory[]>();
 
   // Dropdown data
   enquiryTypes = [
@@ -27,10 +30,13 @@ export class EnquirySubmitComponent implements OnInit {
     { value: 'Sales', label: 'Sales' },
     { value: 'Support', label: 'Support' }
   ];
+  constructor(){
+    this.$statusList = this.__featureService.getAllStatus();
+    this.$categoryList = this.__featureService.getAllCategories();
+  }
+
   ngOnInit(): void {
     this.initializeForm();
-    this.getStatus();
-    this.getCategories();
   }
 
   private initializeForm(): void {
@@ -43,7 +49,6 @@ export class EnquirySubmitComponent implements OnInit {
       statusId: [1, Validators.required],
       enquiryType: ['General', Validators.required],
       isConverted: [false],
-      followUpDate: ['', Validators.required],
       feedback: ['', Validators.minLength(5)]
     });
   }
@@ -57,28 +62,15 @@ export class EnquirySubmitComponent implements OnInit {
     return !!(field && field.hasError(errorType) && (field.touched || field.dirty || this.submitted));
   }
 
-  // the api is sending more than 100 entires, so I am filtering to get first 5 statuses which I actually needed - using public api 
-  getStatus() {
-    this.__featureService.getAllStatus().subscribe((result: any) => {
-      this.statusList = result.data.filter((status: { statusId: number; }) => status.statusId < 6);
-    })
-  }
-
-  getCategories() {
-    this.__featureService.getAllCategories().subscribe((result: any) => {
-      this.categoryList = result.data.filter((category: { categoryId: number; }) => category.categoryId < 4);
-    })
-  }
-
   onSubmit(): void {
     this.submitted = true;
 
     if (this.enquiryForm.valid) {
-      const formData = {
+      const formData: EnquiryModel = {
         ...this.enquiryForm.value,
         enquiryDate: new Date().toISOString()
       };
-      this.__featureService.saveEnquiry(formData).subscribe({
+      const subscription = this.__featureService.saveEnquiry(formData).subscribe({
         next: (result: any) =>{
           console.log('Enquiry Saved:', result);
           alert('Enquiry submitted successfully!');
@@ -88,6 +80,9 @@ export class EnquirySubmitComponent implements OnInit {
           console.error('Error saving enquiry:', error);
           alert('There was an error submitting your enquiry. Please try again later.');
         }     
+      });
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
       });
     } else {
       alert('Please fill all required fields correctly');

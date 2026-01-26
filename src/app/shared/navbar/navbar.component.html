@@ -28,15 +28,18 @@
       </ul>
       <div class="d-flex gap-2 align-items-center ms-lg-3">
         <!-- Login Link -->
-        <a *ngIf="!isLoggedIn()" class="btn btn-primary btn-sm" routerLink="/login" (click)="closeNavbar()">
+        @if(!isLoggedIn()){
+        <a class="btn btn-primary btn-sm" routerLink="/login" (click)="closeNavbar()">
           Login
         </a>
-
+        }
         <!-- User Section (Logged In) -->
-        <div *ngIf="isLoggedIn()" class="d-flex align-items-center gap-2">
+        @if(isLoggedIn()){
+        <div class="d-flex align-items-center gap-2">
           <span class="text-light d-none d-md-inline">{{ userName() }}</span>
           <button class="btn btn-danger btn-sm" (click)="logout()">Logout</button>
         </div>
+        }
       </div>
     </div>
   </div>

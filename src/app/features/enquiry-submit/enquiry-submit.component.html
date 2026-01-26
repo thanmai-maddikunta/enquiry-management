@@ -81,7 +81,7 @@
                 <select class="form-select" id="categoryId" formControlName="categoryId"
                   [class.is-invalid]="hasError('categoryId', 'required')">
                   <option value="" selected disabled>Select a category</option>
-                  @for(cat of categoryList; track $index){
+                  @for(cat of $categoryList | async; track $index){
                     <option [value]="cat.categoryId">{{ cat.categoryName }}</option>
                   }
                 </select>
@@ -133,6 +133,7 @@
         </div>
 
         <!-- Section 3: Status & Tracking -->
+         @if(enquiryForm.get('statusId')?.value !== 1){
         <div class="card border-0 shadow-sm mb-4">
           <div class="card-header">
             <h5 class="mb-0">⏱️ Status & Tracking</h5>
@@ -146,7 +147,7 @@
                 </label>
                 <select class="form-select" id="statusId" formControlName="statusId"
                   [class.is-invalid]="hasError('statusId', 'required')">
-                  @for(status of statusList; track $index){
+                  @for(status of $statusList | async; track $index){
                     <option [value]="status.statusId"> {{ status.statusName }} </option>
                   }
                 </select>
@@ -179,7 +180,7 @@
             </div>
           </div>
         </div>
-
+      }
         <!-- Section 4: Additional Feedback -->
         <div class="card border-0 shadow-sm mb-4">
           <div class="card-header">

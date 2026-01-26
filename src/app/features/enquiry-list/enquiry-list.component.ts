@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { FeatureService } from '../feature.service';
 
 @Component({
@@ -11,17 +11,21 @@ import { FeatureService } from '../feature.service';
 export class EnquiryListComponent implements OnInit {
   enquiries: any[] = [];
 
-  __featureService = inject(FeatureService);
+  private __featureService = inject(FeatureService);
+  private destroyRef = inject(DestroyRef)
 
   ngOnInit(): void {
     this.getAllEnquiries();
   }
 
   getAllEnquiries() {
-    this.__featureService.getAllEnquiries().subscribe((res: any) => {
+    const subscription = this.__featureService.getAllEnquiries().subscribe((res: any) => {
       console.log(res);
       this.enquiries = res.data.filter((status: { statusId: number; categoryId: number; }) => status.statusId < 6 && status.categoryId < 4);
       console.log(this.enquiries);
+    });
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
     });
   }
 }
