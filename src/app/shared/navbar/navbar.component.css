@@ -1,0 +1,134 @@
+/* Navbar Styling */
+.navbar {
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+  color: var(--primary-color) !important;
+}
+
+.navbar-brand:hover {
+  color: var(--primary-dark) !important;
+}
+
+/* Navigation Links */
+.navbar-nav .nav-link {
+  margin: 0 10px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  color: var(--text-primary) !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link.active {
+  color: var(--primary-color) !important;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+/* Mobile Menu */
+.navbar-toggler {
+  border: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: 1px solid var(--primary-color);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28123, 159, 212, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* User Text Color */
+.text-light {
+  color: var(--text-secondary) !important;
+}
+
+/* Button Styling */
+.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 12px rgba(123, 159, 212, 0.25);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-color);
+  border-color: var(--danger-color);
+  filter: brightness(0.85);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar-nav {
+    text-align: center;
+    padding-top: 15px;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 10px 0;
+    margin: 5px 0;
+  }
+
+  .navbar-collapse {
+    background-color: var(--secondary-light);
+    border-radius: 8px;
+    padding: 15px 0;
+  }
+
+  .d-flex.gap-2 {
+    flex-direction: column;
+    gap: 10px !important;
+    padding: 15px 0;
+  }
+
+  .d-flex.gap-2 .btn {
+    width: 100%;
+  }
+
+  .d-flex.gap-2 > div {
+    width: 100%;
+  }
+
+  .btn-primary {
+    width: 100%;
+  }
+}
+
+/* Sticky navbar on desktop */
+@media (min-width: 992px) {
+  .sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+  }
+}
+
